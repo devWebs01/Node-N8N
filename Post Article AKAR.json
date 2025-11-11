@@ -1,0 +1,826 @@
+{
+  "name": "Post Article AKAR",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tulis artikel blog dalam bahasa Indonesia yang menarik dengan prinsip E-E-A-T (Experience, Expertise, Authority, Trust) dan berpotensi banyak dicari dalam search engine, dengan panjang 900–1050 kata.\n\nArtikel yang perlu ditulis dengan pembahasan: {{ $json.prompt }}\n\nHasilkan output JSON dengan struktur berikut:\n{\n  \"title\": \"Judul unik dengan kata kunci utama\",\n  \"slug\": \"slug-seo-friendly-dari-judul\",\n  \"content_html\": \"Artikel dalam format HTML lengkap\",\n  \"excerpt\": \"Ringkasan artikel maksimal 40 kata\",\n  \"status\": \"draft\",\n  \"meta_description\": \"Deskripsi meta maksimal 200 karakter\",\n  \"focus_keyword\": \"kata kunci utama\",\n  \"keywords\": [\"tag1\", \"tag2\", \"tag3\", \"tag4\", \"tag5\"], \n  \"categories\": [\"Nama kategori utama\"], \n  \"cta\": \"Call to Action singkat di akhir artikel\", \n  \"promptgenerator\": \"Prompt singkat & jelas untuk generate gambar ilustrasi artikel\"\n}\n\nInstruksi Penulisan:\n- Gunakan kata kunci utama pada judul, isi artikel, meta, dan CTA.\n- Gunakan struktur <h2>, <h3>, <b>, <p>, <ul>/<ol>. \n- Judul tidak perlu ditulis ulang didalam isi content.\n- Tambahkan snippet paragraf pembuka dan daftar (bullet/numbering).\n- Variasikan struktur kalimat.\n- Sertakan data, kutipan.\n- Gunakan gaya storytelling dengan kata \"kamu\".\n- Tambahkan bagian FAQ.\n- Tambahkan internal link lain ke kategori atau artikel relevan di website, terutama saat menyebut topik referensi (gunakan backlink pada teks yang sesuai). \n- Jika ada referensi atau topik pendukung, sisipkan backlink internal ke halaman terkait di atas (gunakan tag <a href=\"URL\">anchor text</a>). \n- Untuk \"promptgenerator\": tulis deskripsi visual (misalnya gaya, objek, suasana) agar bisa dipakai untuk text-to-image. \n- Output harus dalam JSON valid. \n\nOutput PENTING:\n- PENTING: Keluarkan HANYA sebuah objek JSON tunggal (tidak ada teks di luar JSON, tidak ada ```json fences, tidak ada penjelasan tambahan).\n- Untuk field content_html pastikan semua double quotes \" di dalam HTML di-escape sebagai \\\" atau gunakan HTML entities (\") — jangan keluarkan unescaped quotes di dalam value.\n- Jangan menggunakan kutip tunggal untuk JSON keys/strings; gunakan double quotes.\n- Jangan sertakan komentar, notasi, atau kode blok lain. Output harus valid JSON tanpa trailing comma.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -192,
+        -976
+      ],
+      "id": "78f6bda1-4544-401d-b1f9-06bb06cd2283",
+      "name": "Generate article"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -784
+      ],
+      "id": "f1752ef0-1259-4a00-ac26-214a7cc263ee",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6GmVh5LpRRB7sdvW",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3e8d2523-66aa-46fe-adcc-39dc78b9161e",
+              "name": "prompt",
+              "type": "string",
+              "value": "={{ $json.PROMPT }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e2303d74-6549-4fcc-bda8-d2b04002e3da",
+      "name": "Set context",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -432,
+        -832
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID POST"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b7a13eb9-373f-4b5c-8e74-21ff9076d79b",
+      "name": "Get context",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -864,
+        -816
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "984bbef5-12ec-4460-986d-4fd21fff7c3e",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -1088,
+        -816
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ambil raw output dari node sebelumnya\nlet raw = items[0].json.output || \"\";\n\n// Hapus fences ```json atau ``` jika ada (case-insensitive)\nraw = raw.replace(/```json\\s*/i, \"\").replace(/```/g, \"\");\n\n// Hapus karakter kontrol non-printable yang sering bikin masalah\nraw = raw.replace(/[\\u0000-\\u001F]+/g, \"\");\n\n// Normalisasi kutipan tipografi menjadi kutip biasa\nraw = raw.replace(/[“”]/g, '\"').replace(/[‘’]/g, \"'\");\n\n// Fungsi: cari substring JSON yang seimbang berdasarkan matching braces,\n// dengan memperhatikan string escapes (\\\"), agar tidak salah hitung braces di dalam string.\nfunction extractBalancedJSON(s) {\n  const firstBrace = s.indexOf(\"{\");\n  if (firstBrace === -1) return null;\n  let inString = false;\n  let escape = false;\n  let braceCount = 0;\n\n  for (let i = firstBrace; i < s.length; i++) {\n    const ch = s[i];\n\n    if (escape) {\n      escape = false;\n      continue;\n    }\n\n    if (ch === \"\\\\\") {\n      escape = true;\n      continue;\n    }\n\n    if (ch === '\"') {\n      inString = !inString;\n      continue;\n    }\n\n    if (!inString) {\n      if (ch === \"{\") braceCount++;\n      else if (ch === \"}\") {\n        braceCount--;\n        if (braceCount === 0) {\n          // return the balanced JSON substring\n          return s.substring(firstBrace, i + 1);\n        }\n      }\n    }\n  }\n  return null;\n}\n\n// Ekstrak JSON substring yang seimbang\nlet jsonSubstring = extractBalancedJSON(raw);\nif (!jsonSubstring) {\n  throw new Error(\"Gagal menemukan JSON seimbang dalam output. Raw length: \" + raw.length);\n}\n\n// Bersihkan trailing comma dalam objek/array (contoh: {\"a\":1,})\n// Catatan: regex sederhana — cukup untuk kebanyakan kasus LLM yang meninggalkan koma terakhir.\njsonSubstring = jsonSubstring.replace(/,\\s*([}\\]])/g, \"$1\");\n\n// Sekarang coba parse\nlet data;\ntry {\n  data = JSON.parse(jsonSubstring);\n} catch (e) {\n  // Jika masih error, sertakan potongan awal raw untuk debugging\n  throw new Error(\"Gagal parse JSON setelah ekstraksi: \" + e.message + \"\\n----JSON substring preview----\\n\" + jsonSubstring.slice(0, 4000));\n}\n\n// Buat slug aman\nconst slug = (data.slug || data.title || \"untitled\")\n  .toString()\n  .toLowerCase()\n  .replace(/[^a-z0-9]+/g, \"-\")\n  .replace(/(^-|-$)/g, \"\");\n\n// Kembalikan object yang siap dipakai oleh node berikutnya\nreturn [\n  {\n    json: {\n      title: data.title || \"\",\n      slug,\n      content: data.content_html || \"\",\n      excerpt: data.excerpt || \"\",\n      status: data.status || \"draft\",\n      categories: Array.isArray(data.categories) ? data.categories : (data.categories ? [data.categories] : []),\n      tags: Array.isArray(data.keywords) ? data.keywords : (Array.isArray(data.tags) ? data.tags : []),\n      meta: {\n        _yoast_wpseo_metadesc: data.meta_description || \"\",\n        _yoast_wpseo_focuskw: data.focus_keyword || (data.focus_keyword || \"\")\n      },\n      cta: data.cta || \"\",\n      promptgenerator: data.promptgenerator || \"\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        -832
+      ],
+      "id": "ccdb43f1-09a7-44c4-b6ce-638fb7f9a4b5",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://akar-solution.page.gd/wp-json/wp/v2/posts",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Code').item.json.title }}"
+            },
+            {
+              "name": "content",
+              "value": "={{ $('Code').item.json.content }}"
+            },
+            {
+              "name": "status",
+              "value": "=draft"
+            },
+            {
+              "name": "excerpt",
+              "value": "={{ $('Code').item.json.excerpt }}"
+            },
+            {
+              "name": "slug",
+              "value": "={{ $json.slug }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5e54b5d9-d7c2-4259-a510-3b4a9557f025",
+      "name": "Post to WP",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        400,
+        -832
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "iQ3bhFU7XXreEmVO",
+          "name": "Akun Bot AKAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get context').item.json.row_number }}",
+            "DATA": "={{ $now.format('dd/LL/yyyy') }}",
+            "TITLE": "={{ $('Code').item.json.title }}",
+            "METATITLE": "={{ $('Code').item.json.title }}",
+            "METADESCRIPTION": "={{ $('Code').item.json.meta._yoast_wpseo_metadesc }}",
+            "FOCUSKEYWORD": "={{ $('Code').item.json.meta._yoast_wpseo_focuskw }}",
+            "TAGS": "={{ $('Code').item.json.tags }}",
+            "URL": "={{ $json.link }}",
+            "ID POST": "={{ $json.id }}",
+            "IMAGEGENERATOR": "={{ $('Code').item.json.promptgenerator }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PROMPT",
+              "displayName": "PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TITLE",
+              "displayName": "TITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID POST",
+              "displayName": "ID POST",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "METATITLE",
+              "displayName": "METATITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FOCUSKEYWORD",
+              "displayName": "FOCUSKEYWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "METADESCRIPTION",
+              "displayName": "METADESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TAGS",
+              "displayName": "TAGS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IMAGEGENERATOR",
+              "displayName": "IMAGEGENERATOR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        608,
+        -832
+      ],
+      "id": "5b118e11-f4be-4f8f-b24b-e331bcac92b8",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://akar-solution.page.gd/wp-json/wp/v2/media",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Disposition",
+              "value": "=attachment; filename=\"cover-{{ $('Post to WP').item.json.id }}.jpg\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "e7f6c415-f1a8-4125-b647-1f3e5d391ada",
+      "name": "Upload Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -192,
+        -528
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "iQ3bhFU7XXreEmVO",
+          "name": "Akun Bot AKAR"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c3aa3640-bba7-42cc-a44b-6cd73a1f7111",
+              "name": "image_url",
+              "value": "=https://image.pollinations.ai/prompt/{{ $('Code').item.json.promptgenerator }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -592,
+        -528
+      ],
+      "id": "f4a0a92c-a909-4fec-89de-a591402c6fc8",
+      "name": "Set URL Image Prompt"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.image_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -400,
+        -528
+      ],
+      "id": "8e8613cc-95df-4600-964d-6f8b9d009e18",
+      "name": "Generate Image"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://akar-solution.page.gd/wp-json/wp/v2/posts/{{ $('Post to WP').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cc00eb6b-dfb2-4b6f-9012-5b3dc7432a4a",
+      "name": "Set Featured Image Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -16,
+        -528
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "iQ3bhFU7XXreEmVO",
+          "name": "Akun Bot AKAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let tags = $('Update row in sheet').first().json.TAGS;\n\n// Jika kosong/null langsung return null\nif (!tags || (Array.isArray(tags) && tags.length === 0)) {\n  return [\n    {\n      json: {\n        tags_string: null\n      }\n    }\n  ];\n}\n\n// Kalau masih string JSON → parse dulu\nif (typeof tags === \"string\") {\n  try {\n    tags = JSON.parse(tags);\n  } catch (e) {\n    tags = [tags]; // fallback kalau bukan array JSON\n  }\n}\n\n// Gabung array jadi string dengan koma\nconst tagsString = tags.join(\", \");\n\n// Return ke flow n8n\nreturn [\n  {\n    json: {\n      tags_string: tagsString\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -528
+      ],
+      "id": "9b3f08d3-e837-43c2-8437-86fc56e91178",
+      "name": "Clean Tags"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get context').item.json.row_number }}",
+            "TAGS": "={{ $json.tags_string }},"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "PROMPT",
+              "displayName": "PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TITLE",
+              "displayName": "TITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID POST",
+              "displayName": "ID POST",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "METATITLE",
+              "displayName": "METATITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "FOCUSKEYWORD",
+              "displayName": "FOCUSKEYWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "METADESCRIPTION",
+              "displayName": "METADESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TAGS",
+              "displayName": "TAGS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IMAGEGENERATOR",
+              "displayName": "IMAGEGENERATOR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        400,
+        -528
+      ],
+      "id": "8fd84622-9864-4e28-8cf4-5562f05d121c",
+      "name": "Add Clean Tags",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -624,
+        -848
+      ],
+      "id": "64291d8b-e5b5-497f-8239-b681a061a834",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -528
+      ],
+      "id": "3a37da8b-96be-4a70-a7a0-01805a4bb6dc"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Generate article": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate article",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set context": {
+      "main": [
+        [
+          {
+            "node": "Generate article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get context": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Post to WP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to WP": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Set URL Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Set Featured Image Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set URL Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Featured Image Post": {
+      "main": [
+        [
+          {
+            "node": "Clean Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Tags": {
+      "main": [
+        [
+          {
+            "node": "Add Clean Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Set context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Clean Tags": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1e21764f-a2a8-4c38-bb80-5bff129262da",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b4902acd588e73b62d2ad8808531e816f20d59dbdaa232aae31c60e7b751d799"
+  },
+  "id": "l2nSgafWXq6RTK9i",
+  "tags": []
+}

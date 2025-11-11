@@ -1,0 +1,845 @@
+{
+  "name": "Post Article AKAR",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=**Situasi**\nKamu adalah seorang content writer SEO profesional yang berspesialisasi dalam menulis artikel blog berbahasa Indonesia dengan standar E-E-A-T (Experience, Expertise, Authority, Trust) dari Google. Kamu memahami algoritma search engine, user intent, dan teknik storytelling yang engaging untuk audiens Indonesia. Kamu juga ahli dalam menghasilkan output JSON yang valid dan terstruktur untuk sistem manajemen konten.\n\n**Tugas**\nTulis artikel blog berbahasa Indonesia sepanjang 900–1050 kata berdasarkan topik yang diberikan dalam variabel `{{ $json.prompt }}`. Artikel harus mengikuti prinsip Experience, Expertise, Authority, Trust, dioptimalkan untuk SEO, dan menggunakan gaya penulisan humanis dengan pendekatan storytelling. Output harus berupa satu objek JSON valid tanpa teks tambahan di luar struktur JSON.\n\n**Objektif**\nMenghasilkan artikel blog yang berkualitas tinggi, berpotensi ranking tinggi di search engine, memberikan nilai informatif kepada pembaca, dan siap dipublikasikan langsung ke sistem CMS melalui format JSON yang valid.\n\n**Pengetahuan**\n\nPrinsip E-E-A-T yang harus diterapkan:\n- Experience: Tunjukkan pengalaman praktis atau contoh nyata terkait topik\n- Expertise: Tampilkan keahlian melalui data, statistik, atau penjelasan mendalam\n- Authority: Bangun otoritas dengan referensi kredibel dan internal linking\n- Trust: Ciptakan kepercayaan dengan informasi akurat, transparan, dan bermanfaat\n\nStruktur artikel yang diharapkan:\n- Paragraf pembuka yang menarik (hook) dengan kata kunci utama\n- Daftar poin (bullet atau numbering) di awal untuk overview\n- Minimal 3-5 section dengan heading <h2> dan sub-heading <h3>\n- Variasi struktur kalimat (pendek, sedang, panjang) untuk keterbacaan\n- Sertakan data, statistik, atau kutipan relevan\n- Bagian FAQ dengan 3-5 pertanyaan umum\n- **Call to Action yang natural di akhir artikel, yang secara kontekstual mengarahkan pembaca ke `https://akar-solution.page.gd/` sebagai solusi atau langkah relevan berikutnya.**\n\nPanduan SEO:\n- Kata kunci utama harus muncul di: judul, meta description, paragraf pertama, beberapa heading, dan CTA\n- Slug harus lowercase, dipisah tanda hubung, tanpa karakter khusus\n- Meta description maksimal 200 karakter, menarik untuk diklik\n- Gunakan 5 keywords/tags yang relevan dengan topik\n- Sisipkan 2-3 internal link ke artikel atau kategori terkait menggunakan format `<a href=\"/kategori/artikel-terkait\">anchor text</a>`\n- **(Native Advertising) Sisipkan 1-2 kali referensi kontekstual ke `https://akar-solution.page.gd/` di dalam `content_html`. Gunakan ini sebagai studi kasus, contoh solusi, atau referensi ahli yang relevan dengan topik. Referensi harus terasa natural dan mendukung E-E-A-T (Experience/Authority), bukan *hard-selling*. Contoh: `...seperti solusi kustom yang ditawarkan oleh <a href=\\\"https://akar-solution.page.gd/\\\">Akar Solution</a> untuk mengoptimalkan alur kerja...`**\n\nGaya penulisan:\n- Gunakan kata ganti \"kamu\" untuk menciptakan kedekatan dengan pembaca\n- Tone conversational namun tetap informatif dan profesional\n- Hindari jargon berlebihan, jelaskan istilah teknis jika diperlukan\n- Gunakan storytelling untuk membuat konten lebih engaging\n\nSpesifikasi teknis JSON:\n- Semua double quotes di dalam HTML harus di-escape sebagai `\\\"` atau gunakan HTML entities `&quot;`\n- Gunakan double quotes untuk semua JSON keys dan string values\n- Tidak boleh ada trailing comma\n- Tidak boleh ada komentar atau notasi tambahan\n- Output harus dimulai langsung dengan `{` dan diakhiri dengan `}`\n- Tidak ada code fence (```json) atau teks penjelasan di luar JSON\n\nFormat HTML untuk content_html:\n- Gunakan tag: `<h2>`, `<h3>`, `<p>`, `<b>`, `<ul>`, `<ol>`, `<li>`, `<a>`\n- JANGAN tulis ulang judul artikel di dalam content_html\n- Mulai langsung dengan paragraf pembuka\n- Pastikan semua tag HTML tertutup dengan benar\n\nStruktur JSON yang harus dihasilkan:\n```\n{\n  \"title\": \"string\",\n  \"slug\": \"string\",\n  \"content_html\": \"string\",\n  \"excerpt\": \"string\",\n  \"status\": \"draft\",\n  \"meta_description\": \"string\",\n  \"focus_keyword\": \"string\",\n  \"keywords\": [\"string\"],\n  \"categories\": [\"{{ $json.kategori }}\"],\n  \"cta\": \"string\",\n  \"promptgenerator\": \"string\"\n}\n```\n\nField \"promptgenerator\" harus berisi deskripsi visual untuk text-to-image generation, mencakup: gaya visual, objek utama, suasana, warna dominan, dan komposisi. Contoh: \"Ilustrasi flat design modern dengan warna biru dan hijau, menampilkan seseorang bekerja di laptop dengan ikon-ikon produktivitas di sekitarnya, suasana profesional dan inspiratif, pencahayaan terang\"\n\nKetentuan panjang konten:\n- Artikel: 900–1050 kata\n- Excerpt: maksimal 40 kata\n- Meta description: maksimal 200 karakter\n- CTA: 1-2 kalimat singkat dan jelas\n\nElemen Native Advertising / Inbound Marketing yang Disisipkan\n- Di bagian solusi atau rekomendasi, sisip kolom “Jika kamu butuh bantuan profesional…” lalu tautkan ke website target.\n- Pastikan tautan dibingkai sebagai “rekomendasi” atau “solusi tambahan” sehingga terasa bagian dari narasi, bukan iklan yang memaksa.\n- Gunakan kata-kata seperti “sebagai referensi”, “pilihan untuk kamu”, “layanan lokal di Jambi yang bisa dipertimbangkan” agar terasa natural.\n- Pastikan juga ada disclosure ringan (misalnya: “Sebagai tambahan, ada layanan lokal yang…”) untuk menjaga transparansi.\n\nCatatan SEO & Etis\n- Pastikan native link tidak mendominasi seluruh artikel — fokus utama tetap edukasi dan nilai untuk pembaca.\n- Gunakan internal link ke artikel lain di website kamu agar tetap menjaga otoritas dan pengalaman pengguna.\n- Ikuti pedoman native advertising etis: jangan menyembunyikan bahwa ada rekomendasi/tautan ke layanan. \n- Kata kunci utama dan turunan tetap harus muncul di judul, paragraf pertama, heading utama, dan CTA.\n\nPastikan artikel humanis dengan:\n- Variasi panjang kalimat dan paragraf\n- Transisi natural antar section\n- Contoh atau analogi yang relatable\n- Hindari pola repetitif yang terlihat AI-generated\n\nOutput HARUS berupa JSON valid murni tanpa apapun di luar struktur JSON. Tidak ada penjelasan, tidak ada code fence, tidak ada teks pembuka atau penutup.",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        -176
+      ],
+      "id": "d4281796-96b6-44c5-a5ed-1c2a39b7b96a",
+      "name": "Generate article"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3e8d2523-66aa-46fe-adcc-39dc78b9161e",
+              "name": "prompt",
+              "type": "string",
+              "value": "={{ $json.PROMPT }}"
+            },
+            {
+              "id": "c29a7950-1187-4627-8ffe-bcf967b194af",
+              "name": "kategori",
+              "value": "={{ $json.KATEGORI }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa29b2e2-05f6-4296-b2e5-937a4a6a8d04",
+      "name": "Set context",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -240,
+        144
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID POST"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d281fe8f-e536-43f2-b429-18083c78a7a4",
+      "name": "Get context",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -672,
+        160
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CzhTWVUh0ZSQ4Pss",
+          "name": "Akun Testing"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "b6742778-28c6-47bf-aafc-8b01418875da",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -896,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// ========================================\n// MAPPING KATEGORI BERDASARKAN ID\n// ========================================\nconst categoryMapping = {\n  \"Edukatif\": 17,\n  \"Edukatif \": 17,  // Handle jika ada spasi trailing\n  \"Tips dan Rekomendasi\": 20,\n  \"Studi Kasus\": 19,\n  \"Perbandingan\": 18\n};\n\n// ========================================\n// AMBIL & BERSIHKAN RAW OUTPUT\n// ========================================\nlet raw = items[0].json.output || \"\";\n\n// Hapus fences ```json atau ``` (case-insensitive)\nraw = raw.replace(/```json\\s*/i, \"\").replace(/```/g, \"\");\n\n// Hapus karakter kontrol non-printable yang sering bikin masalah\nraw = raw.replace(/[\\u0000-\\u001F]+/g, \"\");\n\n// Normalisasi kutipan tipografi menjadi kutip biasa\nraw = raw.replace(/[\"\"]/g, '\"').replace(/['']/g, \"'\");\n\n// ========================================\n// FUNGSI: EKSTRAK JSON SEIMBANG\n// ========================================\nfunction extractBalancedJSON(s) {\n  const firstBrace = s.indexOf(\"{\");\n  if (firstBrace === -1) return null;\n  \n  let inString = false;\n  let escape = false;\n  let braceCount = 0;\n  \n  for (let i = firstBrace; i < s.length; i++) {\n    const ch = s[i];\n    \n    if (escape) {\n      escape = false;\n      continue;\n    }\n    if (ch === \"\\\\\") {\n      escape = true;\n      continue;\n    }\n    if (ch === '\"') {\n      inString = !inString;\n      continue;\n    }\n    if (!inString) {\n      if (ch === \"{\") braceCount++;\n      else if (ch === \"}\") {\n        braceCount--;\n        if (braceCount === 0) {\n          return s.substring(firstBrace, i + 1);\n        }\n      }\n    }\n  }\n  return null;\n}\n\n// Ekstrak JSON substring yang seimbang\nlet jsonSubstring = extractBalancedJSON(raw);\nif (!jsonSubstring) {\n  throw new Error(\"Gagal menemukan JSON seimbang dalam output. Raw length: \" + raw.length);\n}\n\n// Bersihkan trailing comma dalam objek/array\njsonSubstring = jsonSubstring.replace(/,\\s*([}\\]])/g, \"$1\");\n\n// ========================================\n// PARSE JSON\n// ========================================\nlet data;\ntry {\n  data = JSON.parse(jsonSubstring);\n} catch (e) {\n  throw new Error(\n    \"Gagal parse JSON setelah ekstraksi: \" + e.message + \n    \"\\n----JSON substring preview----\\n\" + \n    jsonSubstring.slice(0, 4000)\n  );\n}\n\n// ========================================\n// BUAT SLUG AMAN\n// ========================================\nconst slug = (data.slug || data.title || \"untitled\")\n  .toString()\n  .toLowerCase()\n  .replace(/[^a-z0-9]+/g, \"-\")\n  .replace(/(^-|-$)/g, \"\");\n\n// ========================================\n// PROSES CATEGORIES: CONVERT NAME -> ID\n// ========================================\nlet categoryIds = [];\n\nif (data.categories) {\n  // Pastikan categories dalam bentuk array\n  const categoriesArray = Array.isArray(data.categories) \n    ? data.categories \n    : [data.categories];\n  \n  // Map setiap kategori name ke ID\n  categoryIds = categoriesArray\n    .map(catName => {\n      // Trim whitespace untuk handle \"Edukatif \" vs \"Edukatif\"\n      const trimmedName = catName.toString().trim();\n      \n      // Cari ID berdasarkan mapping\n      const categoryId = categoryMapping[trimmedName] || categoryMapping[catName];\n      \n      if (!categoryId) {\n        console.warn(`⚠️ Kategori tidak ditemukan: \"${catName}\". Akan di-skip.`);\n        return null;\n      }\n      \n      return categoryId;\n    })\n    .filter(id => id !== null); // Filter null values\n}\n\n// Fallback jika tidak ada kategori yang valid\nif (categoryIds.length === 0) {\n  console.warn(\"⚠️ Tidak ada kategori valid. Menggunakan default ID 17 (Edukatif)\");\n  categoryIds = [17]; // Default ke Edukatif\n}\n\n// ========================================\n// PROSES TAGS/KEYWORDS\n// ========================================\nconst tags = Array.isArray(data.keywords) \n  ? data.keywords \n  : (Array.isArray(data.tags) ? data.tags : []);\n\n// ========================================\n// RETURN OUTPUT FINAL\n// ========================================\nreturn [\n  {\n    json: {\n      title: data.title || \"\",\n      slug: slug,\n      content: data.content_html || \"\",\n      excerpt: data.excerpt || \"\",\n      status: data.status || \"draft\",\n      categories: categoryIds,  // ✅ INI SUDAH BERUPA ARRAY OF IDs\n      tags: tags,\n      meta: {\n        _yoast_wpseo_metadesc: data.meta_description || \"\",\n        _yoast_wpseo_focuskw: data.focus_keyword || \"\"\n      },\n      cta: data.cta || \"\",\n      promptgenerator: data.promptgenerator || \"\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        144
+      ],
+      "id": "a82cb829-13ed-498c-a860-d065cc3dd8a5",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://akar-solution.page.gd/wp-json/wp/v2/posts",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Code').item.json.title }}"
+            },
+            {
+              "name": "content",
+              "value": "={{ $('Code').item.json.content }}"
+            },
+            {
+              "name": "status",
+              "value": "=draft"
+            },
+            {
+              "name": "excerpt",
+              "value": "={{ $('Code').item.json.excerpt }}"
+            },
+            {
+              "name": "slug",
+              "value": "={{ $json.slug }}"
+            },
+            {
+              "name": "categories",
+              "value": "={{ $json.categories }}"
+            },
+            {
+              "name": "meta",
+              "value": "={{ $('Code').item.json.meta }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ $json.tags.join(\", \") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fa192b68-09e7-475d-81d9-01373b35dc97",
+      "name": "Post to WP",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        592,
+        144
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "4YNXs2KsAy6H3rew",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get context').item.json.row_number }}",
+            "DATA": "={{ $now.format('dd/LL/yyyy') }}",
+            "TITLE": "={{ $('Code').item.json.title }}",
+            "METATITLE": "={{ $('Code').item.json.title }}",
+            "METADESCRIPTION": "={{ $('Code').item.json.meta._yoast_wpseo_metadesc }}",
+            "FOCUSKEYWORD": "={{ $('Code').item.json.meta._yoast_wpseo_focuskw }}",
+            "TAGS": "={{ $('Code').item.json.tags }}",
+            "URL": "={{ $json.link }}",
+            "ID POST": "={{ $json.id }}",
+            "IMAGEGENERATOR": "={{ $('Code').item.json.promptgenerator }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PROMPT",
+              "displayName": "PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TITLE",
+              "displayName": "TITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID POST",
+              "displayName": "ID POST",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "METATITLE",
+              "displayName": "METATITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FOCUSKEYWORD",
+              "displayName": "FOCUSKEYWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "METADESCRIPTION",
+              "displayName": "METADESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TAGS",
+              "displayName": "TAGS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IMAGEGENERATOR",
+              "displayName": "IMAGEGENERATOR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        800,
+        144
+      ],
+      "id": "0762d1d7-c2c6-47e7-9ec0-a2dfdd771fab",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CzhTWVUh0ZSQ4Pss",
+          "name": "Akun Testing"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://akar-solution.page.gd/wp-json/wp/v2/media",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Disposition",
+              "value": "=attachment; filename=\"cover-{{ $('Post to WP').item.json.id }}.jpg\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "5b32d9b5-7c0e-4e52-8fa4-26645a98ff7a",
+      "name": "Upload Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        0,
+        448
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "4YNXs2KsAy6H3rew",
+          "name": "Wordpress account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c3aa3640-bba7-42cc-a44b-6cd73a1f7111",
+              "name": "image_url",
+              "value": "=https://image.pollinations.ai/prompt/{{ $('Code').item.json.promptgenerator }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -400,
+        448
+      ],
+      "id": "09e2138c-8c34-4c0e-b744-36586d3d4256",
+      "name": "Set URL Image Prompt"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.image_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        448
+      ],
+      "id": "358cce2e-6719-4ce7-8d46-1f45b65f2c80",
+      "name": "Generate Image"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://akar-solution.page.gd/wp-json/wp/v2/posts/{{ $('Post to WP').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3d263de2-9c2e-4bec-8a8f-617966a255c5",
+      "name": "Set Featured Image Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        176,
+        448
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "wordpressApi": {
+          "id": "4YNXs2KsAy6H3rew",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let tags = $('Update row in sheet').first().json.TAGS;\n\n// Jika kosong/null langsung return null\nif (!tags || (Array.isArray(tags) && tags.length === 0)) {\n  return [\n    {\n      json: {\n        tags_string: null\n      }\n    }\n  ];\n}\n\n// Kalau masih string JSON → parse dulu\nif (typeof tags === \"string\") {\n  try {\n    tags = JSON.parse(tags);\n  } catch (e) {\n    tags = [tags]; // fallback kalau bukan array JSON\n  }\n}\n\n// Gabung array jadi string dengan koma\nconst tagsString = tags.join(\", \");\n\n// Return ke flow n8n\nreturn [\n  {\n    json: {\n      tags_string: tagsString\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        448
+      ],
+      "id": "a93d9d29-d0ae-4ede-81a9-d63f207c0061",
+      "name": "Clean Tags"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4",
+          "mode": "list",
+          "cachedResultName": "Complete Plan Blog post",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bVSFXNsKTHLMrKyyTfmWqiI5dO6m1-ek3lgG-6BHRM4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get context').item.json.row_number }}",
+            "TAGS": "={{ $json.tags_string }},"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "PROMPT",
+              "displayName": "PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TITLE",
+              "displayName": "TITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID POST",
+              "displayName": "ID POST",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "METATITLE",
+              "displayName": "METATITLE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "FOCUSKEYWORD",
+              "displayName": "FOCUSKEYWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "METADESCRIPTION",
+              "displayName": "METADESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TAGS",
+              "displayName": "TAGS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IMAGEGENERATOR",
+              "displayName": "IMAGEGENERATOR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        592,
+        448
+      ],
+      "id": "a2be7e3f-17c4-47b6-b4bb-37c88fcb6855",
+      "name": "Add Clean Tags",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CzhTWVUh0ZSQ4Pss",
+          "name": "Akun Testing"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -448,
+        48
+      ],
+      "id": "58a424f2-e965-4091-b6fd-c5dca16a57ab",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        800,
+        448
+      ],
+      "id": "b99a1660-4a04-440a-84dd-088fe49d4a78"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        16,
+        64
+      ],
+      "id": "371e72ab-cc7c-4efc-afdc-72bcb8a53148",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DNP1kh16jG8TSnt9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Generate article": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set context": {
+      "main": [
+        [
+          {
+            "node": "Generate article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get context": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Post to WP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to WP": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Set URL Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Set Featured Image Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set URL Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Featured Image Post": {
+      "main": [
+        [
+          {
+            "node": "Clean Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Tags": {
+      "main": [
+        [
+          {
+            "node": "Add Clean Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Set context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Clean Tags": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate article",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3487099a-c686-4f9a-ad67-6439dbe4d182",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6bf211f264f5cb9cb8e37c06661eaa76d248bd575b148ebb0a73158852ea86f3"
+  },
+  "id": "YsXe6c1klxxC2ELv",
+  "tags": []
+}

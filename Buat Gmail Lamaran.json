@@ -1,0 +1,1181 @@
+{
+  "name": "Buat Gmail Lamaran",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es",
+          "mode": "list",
+          "cachedResultName": "Form Generate Cover Letter (Jawaban)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1667969238,
+          "mode": "list",
+          "cachedResultName": "Form Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es/edit#gid=1667969238"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "A:Z"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        128
+      ],
+      "id": "a5d9e0f7-9ca9-403d-87bd-8752ce26cf64",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "5ZniIezGuH8ALLXk",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "filter-status-empty",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "filter-jenis-exists",
+              "leftValue": "={{ $json['Pilih Jenis Surat Lamaran'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        128
+      ],
+      "id": "0dbdd141-1988-422d-bf42-c4ac99a9742c",
+      "name": "Filter New Applications"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -608,
+        80
+      ],
+      "id": "7702b179-aaed-4cb8-9842-257afe9bd54a",
+      "name": "Split Per Application"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "unique-identifier",
+              "name": "UniqueId",
+              "value": "={{ $json['Email Perusahaan'].replace(/[^a-zA-Z0-9]/g, '') + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) }}",
+              "type": "string"
+            },
+            {
+              "id": "clean-email",
+              "name": "Email Perusahaan",
+              "value": "={{ $json['Email Perusahaan'].toString().replace(/\\r?\\n/g, '').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "825e4344-5dcb-4963-9d28-d7967acbd713",
+              "name": "Pilih Jenis Surat Lamaran",
+              "value": "={{ $json['Pilih Jenis Surat Lamaran'] }}",
+              "type": "string"
+            },
+            {
+              "id": "980764a0-fc60-4509-bd89-dc81682ff046",
+              "name": "Email Perusahaan",
+              "value": "={{ $json['Email Perusahaan'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1ae8994b-ee1b-4e0b-a16c-acc4a210905e",
+              "name": "Nama Perusahaan",
+              "value": "={{ $json['Nama Perusahaan'] }}",
+              "type": "string"
+            },
+            {
+              "id": "721c56cf-3cf2-4d44-acd0-3242f85eadd4",
+              "name": "Text Gmail",
+              "value": "={{ $json['Text Gmail'] }}",
+              "type": "string"
+            },
+            {
+              "id": "35ec7c1f-df86-457d-a589-b840021cd56f",
+              "name": "Posisi Dilamar",
+              "value": "={{ $json['Posisi Dilamar'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -416,
+        128
+      ],
+      "id": "90bc586b-9f15-4648-a960-ab27dfb38fbb",
+      "name": "Set Unique ID"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es",
+          "mode": "list",
+          "cachedResultName": "Google Form Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 944909935,
+          "mode": "list",
+          "cachedResultName": "Template Cover Letter"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Jenis Template",
+              "lookupValue": "={{ $json['Pilih Jenis Surat Lamaran'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -208,
+        -80
+      ],
+      "id": "2224645d-cc3b-4ea0-a2b4-97e571a4d812",
+      "name": "Get Cover Letter Template",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "process-cover-letter",
+              "name": "Isi Cover Letter",
+              "value": "={{ \n    $json['Isi Cover Letter']\n        .replaceAll('TanggalSekarang', new Date().toLocaleDateString('id-ID', { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit' }))\n        .replaceAll('NamaPerusahaan', $('Set Unique ID').item.json['Nama Perusahaan'])\n        .replaceAll('PosisiDilamar', $('Set Unique ID').item.json['Posisi Dilamar'])\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "def2c8a9-753e-457f-8be4-9f2123810abd",
+      "name": "Process Cover Letter"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ $json['Isi Cover Letter'] }}",
+        "name": "={{ 'Surat_Lamaran_' + $('Set Unique ID').item.json['Posisi Dilamar'].replace(/[^a-zA-Z0-9]/g, '') + '_' + 'Adi_putra' }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1LpfnyNhhK5zGuigs1x0NGCaEV0QmhjlI",
+          "mode": "list",
+          "cachedResultName": "Cover Letter Generate File"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        192,
+        -80
+      ],
+      "id": "3db4bb4f-2090-476e-9d6d-30aee01f22af",
+      "name": "Save Cover Letter",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          },
+          "fileName": "={{ 'Surat_Lamaran_' + $('Set Unique ID').item.json['Posisi Dilamar'].replace(/[^a-zA-Z0-9]/g, '') + '_' + $('Set Unique ID').item.json.UniqueId + '.pdf' }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        400,
+        -80
+      ],
+      "id": "76417aec-9181-48d2-b310-b954ee15994e",
+      "name": "Download Cover Letter PDF",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $('Set Unique ID').item.json['Pilih Jenis Surat Lamaran'] }}",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1fifctFbVPIuXwuhnYpfUiDyj-z3n3N3I",
+            "mode": "list",
+            "cachedResultName": "Berkas Tambahan"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -208,
+        320
+      ],
+      "id": "1c538adf-28fe-4f0a-83b4-58dc228bf296",
+      "name": "Get Additional Docs Folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        0,
+        320
+      ],
+      "id": "f0719b00-ae44-4b74-9d51-748b54d90352",
+      "name": "Get Additional Files",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf",
+              "sheetsToFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        192,
+        320
+      ],
+      "id": "ba450973-d640-4ed2-835e-2ee4dfffb983",
+      "name": "Download Additional Files",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        592,
+        128
+      ],
+      "id": "e5c79b14-c091-45e7-ab5d-7b3d53fae010",
+      "name": "Merge Files for This Application"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Buat binary keys yang unik untuk aplikasi ini\nlet binaries = {}, binary_keys = [];\n\n// Proses semua item untuk aplikasi ini saja\nfor ([index, item] of items.entries()) {\n    if (item.binary && item.binary.data) {\n        const keyName = `file_${index}_${Date.now()}`;\n        binaries[keyName] = item.binary.data;\n        binary_keys.push(keyName);\n    }\n}\n\nreturn [{\n    json: {\n        binary_keys: binary_keys.join(','),\n        application_unique_id: items[0].json.UniqueId || Date.now().toString()\n    },\n    binary: binaries\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        128
+      ],
+      "id": "77f09a75-21d4-4d5f-8508-ccb9d94b7dc6",
+      "name": "Prepare Files for ZIP"
+    },
+    {
+      "parameters": {
+        "operation": "compress",
+        "binaryPropertyName": "={{ $json.binary_keys }}",
+        "fileName": "={{ 'Berkas_Lamaran_' + $('Set Unique ID').first().json['Posisi Dilamar'].replace(/[^a-zA-Z0-9]/g, '') + '_' + 'Adi_Putra' + '.zip' }}"
+      },
+      "type": "n8n-nodes-base.compression",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        128
+      ],
+      "id": "b7f42c9b-7ddf-44fa-a671-8ba2c7d9e09e",
+      "name": "Create Unique ZIP"
+    },
+    {
+      "parameters": {
+        "name": "={{ 'Berkas_Lamaran_' + $('Set Unique ID').first().json['Posisi Dilamar'].replace(/[^a-zA-Z0-9]/g, '') + '_' + 'Adi_Putra' + '.zip' }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1K2XIsM-YoYryHp1WMQ1tvEfuz1bGQaU5",
+          "mode": "list",
+          "cachedResultName": "Kumpulan Berkas Zip"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        128
+      ],
+      "id": "19d60395-5f56-43c6-b239-b4fb39c88f66",
+      "name": "Upload Unique ZIP",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 801424664,
+          "mode": "list",
+          "cachedResultName": "Chat Gmail"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Template Gmail Untuk ",
+              "lookupValue": "={{ $('Set Unique ID').first().json['Pilih Jenis Surat Lamaran'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        816,
+        432
+      ],
+      "id": "112f4816-004f-4f11-bd7e-9ee28cbd26b0",
+      "name": "Get Gmail Template",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "process-gmail-text",
+              "name": "Gmail Text",
+              "value": "={{ $json['Text Email'].replaceAll('_NamaPerusahaan_', $('Set Unique ID').first().json['Nama Perusahaan']).replaceAll('_PosisiDilamar_', $('Set Unique ID').first().json['Posisi Dilamar']) }}",
+              "type": "string"
+            },
+            {
+              "id": "validate-email",
+              "name": "=Email Perusahaan",
+              "value": "={{ /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test($('Set Unique ID').all()[0].json['Email Perusahaan']) ? $('Set Unique ID').all()[0].json['Email Perusahaan'] : 'testingbae66@gmail.com' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        432
+      ],
+      "id": "c8c7812d-9a29-4e8d-b4ce-75c1189b8827",
+      "name": "Process Gmail Template"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es",
+          "mode": "list",
+          "cachedResultName": "Google Form Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1667969238,
+          "mode": "list",
+          "cachedResultName": "Form Responses"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email Perusahaan": "={{ $('Set Unique ID').first().json['Email Perusahaan'] }}",
+            "Text Gmail": "={{ $json['Gmail Text'] }}",
+            "File Zip": "={{ $('Upload Unique ZIP').item.json.id }}",
+            "Status": "Ready for Gmail",
+            "row_number": 0,
+            "Timestamp": "="
+          },
+          "matchingColumns": [
+            "Email Perusahaan"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pilih Jenis Surat Lamaran",
+              "displayName": "Pilih Jenis Surat Lamaran",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Perusahaan",
+              "displayName": "Email Perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nama Perusahaan",
+              "displayName": "Nama Perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posisi Dilamar",
+              "displayName": "Posisi Dilamar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Text Gmail",
+              "displayName": "Text Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "File Zip",
+              "displayName": "File Zip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -192,
+        640
+      ],
+      "id": "02b1bcb4-18e8-428b-9cbd-7312ed915dd6",
+      "name": "Update Sheet with Unique Data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Upload Unique ZIP').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        16,
+        640
+      ],
+      "id": "5506864b-4d86-4520-af60-d28b96d72530",
+      "name": "Download ZIP for Email",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mZiUJaf7CggFsQvN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Set Unique ID').first().json['Posisi Dilamar'] }} - Adi Putra",
+        "message": "={{ $('Process Gmail Template').item.json['Gmail Text'] }}",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "data"
+              }
+            ]
+          },
+          "sendTo": "={{ $('Process Gmail Template').item.json['Email Perusahaan'] }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        256,
+        640
+      ],
+      "id": "1d7d695e-7c4c-4865-9bd6-0610b28de196",
+      "name": "Create Gmail Draft",
+      "webhookId": "94760a48-ca8b-4d40-b2ae-952a6f2a9ee2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "v6N2J5bp8rfo8DZw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "check-gmail-success",
+              "leftValue": "={{ $json.message.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        464,
+        640
+      ],
+      "id": "e40df70d-4214-4eca-a442-0a220bc8f816",
+      "name": "Check Gmail Success"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1uFQrXwDHg10CrKGrHIK6493fIcSAgDq9V_sfZl5u7Es",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1667969238,
+          "mode": "list",
+          "cachedResultName": "Form Responses"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email Perusahaan": "={{ $('Set Unique ID').first().json['Email Perusahaan'] }}",
+            "Status": "Draf Gmail",
+            "row_number": 0
+          },
+          "matchingColumns": [
+            "Email Perusahaan"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pilih Jenis Surat Lamaran",
+              "displayName": "Pilih Jenis Surat Lamaran",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Perusahaan",
+              "displayName": "Email Perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nama Perusahaan",
+              "displayName": "Nama Perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posisi Dilamar",
+              "displayName": "Posisi Dilamar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Text Gmail",
+              "displayName": "Text Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "File Zip",
+              "displayName": "File Zip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        656,
+        640
+      ],
+      "id": "97b7dd7e-e8ee-4842-bb7a-af954984fdf1",
+      "name": "Final Status Update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RsjM1kcTYVsen5RB",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        832,
+        640
+      ],
+      "id": "66329edb-313c-49ea-8809-938241b32afa"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter New Applications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter New Applications": {
+      "main": [
+        [
+          {
+            "node": "Split Per Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Per Application": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Set Unique ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Unique ID": {
+      "main": [
+        [
+          {
+            "node": "Get Cover Letter Template",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Additional Docs Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Cover Letter Template": {
+      "main": [
+        [
+          {
+            "node": "Process Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Save Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Download Cover Letter PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Cover Letter PDF": {
+      "main": [
+        [
+          {
+            "node": "Merge Files for This Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Additional Docs Folder": {
+      "main": [
+        [
+          {
+            "node": "Get Additional Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Additional Files": {
+      "main": [
+        [
+          {
+            "node": "Download Additional Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Additional Files": {
+      "main": [
+        [
+          {
+            "node": "Merge Files for This Application",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Files for This Application": {
+      "main": [
+        [
+          {
+            "node": "Prepare Files for ZIP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Files for ZIP": {
+      "main": [
+        [
+          {
+            "node": "Create Unique ZIP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Unique ZIP": {
+      "main": [
+        [
+          {
+            "node": "Upload Unique ZIP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Unique ZIP": {
+      "main": [
+        [
+          {
+            "node": "Get Gmail Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Gmail Template": {
+      "main": [
+        [
+          {
+            "node": "Process Gmail Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Gmail Template": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet with Unique Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sheet with Unique Data": {
+      "main": [
+        [
+          {
+            "node": "Download ZIP for Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download ZIP for Email": {
+      "main": [
+        [
+          {
+            "node": "Create Gmail Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Gmail Draft": {
+      "main": [
+        [
+          {
+            "node": "Check Gmail Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Gmail Success": {
+      "main": [
+        [
+          {
+            "node": "Final Status Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Filter New Applications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Status Update": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "23165878-a821-4266-8095-1ba23122490c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b4902acd588e73b62d2ad8808531e816f20d59dbdaa232aae31c60e7b751d799"
+  },
+  "id": "ApgebvNEO8hEWrJQ",
+  "tags": []
+}
